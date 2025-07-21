@@ -23,32 +23,31 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 // OTHERS
 import { TodosContext } from "../contexts/TodosContext";
-import { useContext, useState, useEffect, useMemo } from "react";
+import { useContext, useState, useEffect, useMemo, useReducer } from "react";
 import { useToast } from "../contexts/ToastContext";
-
+import { todosReducer } from "../reducers/todosReducer";
 export default function TodoList() {
-  console.log("re render");
-  const { todos, setTodos } = useContext(TodosContext);
-
+  // console.log("re render");
+  const { todos2, setTodos } = useContext(TodosContext);
   const [dialogTodo, setDialogTodo] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [titleInput, setTitleInput] = useState("");
   const [displayedTodosType, setDisplayedTodosType] = useState("all");
   const { showHideToast } = useToast();
-
+  const [todos, dispatch] = useReducer(todosReducer, []);
   // filteration arrays
 
   const completedTodos = useMemo(() => {
     return todos.filter((t) => {
-      console.log("calling completed todos");
+      // console.log("calling completed todos");
       return t.isCompleted;
     });
   }, [todos]);
 
   const notCompletedTodos = useMemo(() => {
     return todos.filter((t) => {
-      console.log("calling not completed todos");
+      // console.log("calling not completed todos");
       return !t.isCompleted;
     });
   }, [todos]);
@@ -64,7 +63,7 @@ export default function TodoList() {
   }
 
   useEffect(() => {
-    console.log("calling use effect");
+    // console.log("calling use effect");
     const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
     setTodos(storageTodos);
   }, []);
@@ -75,16 +74,7 @@ export default function TodoList() {
   }
 
   function handleAddClick() {
-    const newTodo = {
-      id: uuidv4(),
-      title: titleInput,
-      details: "",
-      isCompleted: false,
-    };
-
-    const updatedTodos = [...todos, newTodo];
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    dispatch({ type: "Added", payload: { title: titleInput } });
     setTitleInput("");
     showHideToast("تمت الإضافة بنجاح");
   }
