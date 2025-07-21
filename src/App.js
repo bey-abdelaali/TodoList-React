@@ -21,20 +21,26 @@ const theme = createTheme({
 const initialTodos = [
   {
     id: uuidv4(),
-    title: "قراءة كتاب",
-    details: "تيسمبتيس يتسبميتس بيمستب",
+    title: "المهمة الأولى",
+    body: "التفاصيل الخاصة بالمهمة الأولى",
     isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: "قراءة كتاب",
-    details: "تيسمبتيس يتسبميتس بيمستب",
+    title: "المهمة الثانية",
+    body: "التفاصيل الخاصة بالمهمة الثانية",
     isCompleted: false,
   },
   {
     id: uuidv4(),
-    title: "قراءة كتاب",
-    details: "تيسمبتيس يتسبميتس بيمستب",
+    title: "المهمة الثالثة",
+    body: "التفاصيل الخاصة بالمهمة الثالثة",
+    isCompleted: false,
+  },
+  {
+    id: uuidv4(),
+    title: "المهمة الرابعة",
+    body: "التفاصيل الخاصة بالمهمة الرابعة",
     isCompleted: false,
   },
 ];

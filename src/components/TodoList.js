@@ -28,7 +28,6 @@ import { useToast } from "../contexts/ToastContext";
 import { todosReducer } from "../reducers/todosReducer";
 export default function TodoList() {
   // console.log("re render");
-  const { todos2, setTodos } = useContext(TodosContext);
   const [dialogTodo, setDialogTodo] = useState(null);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
@@ -64,8 +63,7 @@ export default function TodoList() {
 
   useEffect(() => {
     // console.log("calling use effect");
-    const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
-    setTodos(storageTodos);
+    dispatch({ type: "GetTodosStorage", payload: {} });
   }, []);
 
   // ===== HANDLERS
@@ -94,11 +92,7 @@ export default function TodoList() {
   }
 
   function handleDeleteConfirm() {
-    const updatedTodos = todos.filter((t) => {
-      return t.id != dialogTodo.id;
-    });
-    setTodos(updatedTodos);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+    dispatch({ type: "Deleted", payload: { id: dialogTodo.id } });
     setShowDeleteDialog(false);
     showHideToast("تم حذف المهمة بنجاح");
   }
@@ -108,21 +102,15 @@ export default function TodoList() {
   }
 
   function handleUpdateConfirm() {
-    const updatedTodos = todos.map((t) => {
-      if (t.id == dialogTodo.id) {
-        return {
-          ...t,
-          title: dialogTodo.title,
-          details: dialogTodo.details,
-        };
-      } else {
-        return t;
-      }
+    dispatch({
+      type: "Updated",
+      payload: {
+        id: dialogTodo.id,
+        title: dialogTodo.title,
+        details: dialogTodo.details,
+      },
     });
-
-    setTodos(updatedTodos);
     setShowUpdateDialog(false);
-    localStorage.setItem("todos", JSON.stringify(updatedTodos));
     showHideToast("تم تعديل المهمة بنجاح");
   }
 

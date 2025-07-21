@@ -14,7 +14,32 @@ export function todosReducer(currentTodos, action) {
       const updatedTodos = [...currentTodos, newTodo];
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
       return updatedTodos;
-
+    case "Deleted": {
+      const updatedTodos = currentTodos.filter((t) => {
+        return t.id != action.payload.id;
+      });
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    }
+    case "Updated": {
+      const updatedTodos = currentTodos.map((t) => {
+        if (t.id == action.payload.id) {
+          return {
+            ...t,
+            title: action.payload.title,
+            details: action.payload.details,
+          };
+        } else {
+          return t;
+        }
+      });
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+      return updatedTodos;
+    }
+    case "GetTodosStorage": {
+      const storageTodos = JSON.parse(localStorage.getItem("todos")) ?? [];
+      return storageTodos;
+    }
     default:
       throw Error("Unknown Action " + action.type);
   }
