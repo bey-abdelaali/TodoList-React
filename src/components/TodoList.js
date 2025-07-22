@@ -103,11 +103,7 @@ export default function TodoList() {
   function handleUpdateConfirm() {
     dispatch({
       type: "Updated",
-      payload: {
-        id: dialogTodo.id,
-        title: dialogTodo.title,
-        details: dialogTodo.details,
-      },
+      payload: dialogTodo,
     });
     setShowUpdateDialog(false);
     showHideToast("تم تعديل المهمة بنجاح");
