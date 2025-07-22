@@ -5,6 +5,8 @@ import { TodosContext } from "./contexts/TodosContext";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ToastProvider } from "./contexts/ToastContext";
+// import Todos provider pour combiner reducer and context
+import TodosProvider from "./contexts/TodosContext";
 
 const theme = createTheme({
   typography: {
@@ -50,23 +52,23 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <ToastProvider>
-        <div
-          className="App"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#191b1f",
-            height: "100vh",
-            direction: "rtl",
-          }}
-        >
-          <TodosContext.Provider value={{ todos, setTodos }}>
+      <TodosProvider>
+        <ToastProvider>
+          <div
+            className="App"
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#191b1f",
+              height: "100vh",
+              direction: "rtl",
+            }}
+          >
             <TodoList />
-          </TodosContext.Provider>
-        </div>
-      </ToastProvider>
+          </div>
+        </ToastProvider>
+      </TodosProvider>
     </ThemeProvider>
   );
 }
